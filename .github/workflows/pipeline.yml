@@ -33,7 +33,8 @@ jobs:
         run: |
           echo "-> $MODELS"
           echo "-> $OTRO"
-          echo '----------------' 
+          echo '----------------'
+          echo $MODELS | jq -r '.models | .[]'
       - name: Generate ...
         run: |
           gradle gep --type webflux
