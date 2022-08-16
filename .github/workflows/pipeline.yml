@@ -31,7 +31,9 @@ jobs:
           jq --version
           echo "{\"models\" : [\"User\", \"Account\"], \"useCases\" : [\"CreateUser\"]}" | jq -r '.models | .[]'
           echo '----------------'
-          echo " ${{ inputs.data }}" | jq -r '.models | .[]'
+          jq --raw-output .models "${{ inputs.data }}"
+          echo '----------------'
+          echo ${{ inputs.data }} | jq -r '.models | .[]'
 
       - name: Generate ...
         run: |
