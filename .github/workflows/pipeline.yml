@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print input
-        run:  echo "Inputs-> ${{ inputs.data }}" 
+        run:  echo "Inputs - ${{ inputs.data }}" 
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
@@ -26,6 +26,12 @@ jobs:
       - name: Generate Project
         run: |
           gradle ca --package=co.com.bancolombia --type=reactive --name=HelloProject --coverage=jacoco --lombok=true
+      - name: Generate models
+        run: |
+          models=$(echo $JSON | jq -r '.models | .[]')
+          for row in $models; do
+              echo "-> $row" 
+          done
       - name: Generate ...
         run: |
           gradle gep --type webflux
