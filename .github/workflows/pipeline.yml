@@ -52,6 +52,6 @@ jobs:
       - name: Webhook
         uses: joelwmale/webhook-action@master
         with:
-          url: 'https://webhook.site/59f9072b-ffa6-4e20-a93d-491fae8a9df7'
+          url: ${{ WEBHOOK_URL }}
           headers: '{"repository" : " ${{ github.repository }}"}'
           body: '{"status": "${{ job.status }}", "ref": "${{ github.ref }}"}'
