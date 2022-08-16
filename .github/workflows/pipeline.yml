@@ -28,8 +28,9 @@ jobs:
           gradle ca --package=co.com.bancolombia --type=reactive --name=HelloProject --coverage=jacoco --lombok=true
       - name: Generate models
         run: |
-          echo ${{ inputs.data }}
-          echo ${{ inputs.data }} | jq -r '.models | .[]'
+          for i in $(echo ${{ inputs.data }}" | tr " " "\n"); do
+            echo $i
+          done
       - name: Generate ...
         run: |
           gradle gep --type webflux
