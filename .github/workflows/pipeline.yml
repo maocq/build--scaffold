@@ -29,6 +29,7 @@ jobs:
       - name: Generate models
         run: |
           jq --version
+          echo "{\"models\" : [\"User\", \"Account\"], \"useCases\" : [\"CreateUser\"]}" | jq -r '.models | .[]'
           for i in $(echo ${{ inputs.data }} | tr " " "\n"); do
             echo $i
           done
