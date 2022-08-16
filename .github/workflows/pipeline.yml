@@ -14,7 +14,7 @@ jobs:
     #    working-directory: app
     steps:
       - name: Inputs
-        run:  echo "Inputs-> ${{ inputs.models }}" 
+        run:  echo "Inputs-> ${{ inputs }}" 
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
