@@ -28,6 +28,9 @@ jobs:
           gradle ca --package=co.com.bancolombia --type=reactive --name=HelloProject --coverage=jacoco --lombok=true
       - name: Generate models
         run: |
+          HOLa=${{ inputs.data }}
+          echo $HOLa
+          echo '----------------' 
           jq --version
           echo "{\"models\" : [\"User\", \"Account\"], \"useCases\" : [\"CreateUser\"]}" | jq -r '.models | .[]'
           echo '----------------'
