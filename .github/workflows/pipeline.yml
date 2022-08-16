@@ -7,8 +7,7 @@ on:
         required: false
         type: string
 env:
-  MODELS: ${{ inputs.data }}
-  OTRO: 'hello'
+  DATA: ${{ inputs.data }}
 jobs:
   scaffold:
     runs-on: ubuntu-latest
@@ -31,10 +30,11 @@ jobs:
           gradle ca --package=co.com.bancolombia --type=reactive --name=HelloProject --coverage=jacoco --lombok=true
       - name: Generate models
         run: |
-          echo "-> $MODELS"
-          echo "-> $OTRO"
           echo '----------------'
-          echo $MODELS | jq -r '.models | .[]'
+          models=$(echo $DATA | jq -r '.models | .[]')
+          for row in $models; do
+            echo "-> $row" 
+          done
       - name: Generate ...
         run: |
           gradle gep --type webflux
