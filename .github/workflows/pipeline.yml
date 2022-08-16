@@ -34,10 +34,15 @@ jobs:
           for i in $models; do
             gradle gm --name $i
           done
+      - name: Generate use cases
+        run: |
+          useCases=$(echo $DATA | jq -r '.useCases | .[]')
+          for i in $useCases; do
+            gradle guc --name $i
+          done
       - name: Generate ...
         run: |
           gradle gep --type webflux
-          gradle guc --name CreateUser
           gradle gda --type generic --name DrivenAdapter
       - name: Archive Release
         uses: thedoctor0/zip-release@main
