@@ -25,3 +25,6 @@ jobs:
           echo "plugins {
               id \"co.com.bancolombia.cleanArchitecture\" version \"2.4.4\"
           }" > build.gradle
+          ls
+          gradle ca --package=co.com.bancolombia --type=reactive --name=HelloProject --coverage=jacoco --lombok=true
+          ls
