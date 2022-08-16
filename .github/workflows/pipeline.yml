@@ -31,8 +31,7 @@ jobs:
           jq --version
           echo "{\"models\" : [\"User\", \"Account\"], \"useCases\" : [\"CreateUser\"]}" | jq -r '.models | .[]'
           echo '----------------'
-          ${{ inputs.data }} | jq -r '.models | .[]'
-
+          echo "${{fromJson(inputs.data).models}}"
       - name: Generate ...
         run: |
           gradle gep --type webflux
