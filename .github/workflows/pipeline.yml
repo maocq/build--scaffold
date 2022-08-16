@@ -6,6 +6,8 @@ on:
         description: 'Data'
         required: false
         type: string
+env:
+  MODELS: ${{ inputs.data.models }}
 jobs:
   scaffold:
     runs-on: ubuntu-latest
@@ -28,11 +30,8 @@ jobs:
           gradle ca --package=co.com.bancolombia --type=reactive --name=HelloProject --coverage=jacoco --lombok=true
       - name: Generate models
         run: |
-          HOLa=${{ inputs.data }}
-          echo $HOLa
+          echo $MODELS
           echo '----------------' 
-          jq --version
-          echo $HOLa | jq -r '.models | .[]'
       - name: Generate ...
         run: |
           gradle gep --type webflux
