@@ -6,9 +6,9 @@ on:
 jobs:
   scaffold:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: app
+    #defaults:
+    #  run:
+    #    working-directory: app
     steps:
       - uses: actions/setup-java@v3
         with:
