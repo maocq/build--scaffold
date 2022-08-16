@@ -13,7 +13,7 @@ jobs:
     #  run:
     #    working-directory: app
     steps:
-      - name: Inputs
+      - name: Print input
         run:  echo "Inputs-> ${{ inputs.data }}" 
       - uses: actions/setup-java@v3
         with:
