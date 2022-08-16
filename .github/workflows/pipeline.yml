@@ -32,9 +32,7 @@ jobs:
           echo $HOLa
           echo '----------------' 
           jq --version
-          echo "{\"models\" : [\"User\", \"Account\"], \"useCases\" : [\"CreateUser\"]}" | jq -r '.models | .[]'
-          echo '----------------'
-          echo "${{fromJson(inputs.data).models}}"
+          echo $HOLa | jq -r '.models | .[]'
       - name: Generate ...
         run: |
           gradle gep --type webflux
