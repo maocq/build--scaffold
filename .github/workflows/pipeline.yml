@@ -9,9 +9,6 @@ on:
 jobs:
   scaffold:
     runs-on: ubuntu-latest
-    #defaults:
-    #  run:
-    #    working-directory: app
     steps:
       - name: Print input
         run:  echo "Inputs-> ${{ inputs.data }}" 
@@ -40,10 +37,6 @@ jobs:
         with:
           type: 'zip'
           filename: 'app.zip'
-      - name: Check
-        run: |
-          ls
-          pwd
       - name: Upload to S3
         run: |
           aws s3 cp app.zip s3://build-scaffold
@@ -51,3 +44,9 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
+      - name: Webhook
+        uses: joelwmale/webhook-action@master
+        with:
+          url: 'https://webhook.site/59f9072b-ffa6-4e20-a93d-491fae8a9df7'
+          headers: '{"repository" : " ${{ github.repository }}"}'
+          body: '{"status": "${{ job.status }}", "ref": "${{ github.ref }}"}'
