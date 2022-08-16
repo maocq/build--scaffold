@@ -1,0 +1,14 @@
+name: Deployment Pipeline
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    - uses: actions/setup-java@v3
+      with:
+        distribution: temurin
+        java-version: 11
+      - name: Run command
+        run: java --version
