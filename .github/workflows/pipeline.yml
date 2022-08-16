@@ -30,10 +30,12 @@ jobs:
           gradle gm --name User
           gradle guc --name CreateUser
           gradle gda --type generic --name DrivenAdapter
-      - name: Run command
-        run: |
-          echo "Hello"
-      - name: Run command
+      - name: Archive Release
+        uses: thedoctor0/zip-release@main
+        with:
+          type: 'zip'
+          filename: 'app.zip'      
+      - name: Check
         run: |
           ls
           pwd
