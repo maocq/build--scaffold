@@ -2,8 +2,8 @@ name: Build scaffold
 on:
   workflow_dispatch:
     inputs:
-      models:
-        description: 'Models'
+      data:
+        description: 'Data'
         required: false
         type: string
 jobs:
@@ -14,7 +14,7 @@ jobs:
     #    working-directory: app
     steps:
       - name: Inputs
-        run:  echo "Inputs-> ${{ inputs }}" 
+        run:  echo "Inputs-> ${{ inputs.data }}" 
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
