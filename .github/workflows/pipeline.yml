@@ -30,15 +30,13 @@ jobs:
           gradle ca --package=co.com.bancolombia --type=reactive --name=HelloProject --coverage=jacoco --lombok=true
       - name: Generate models
         run: |
-          echo '----------------'
           models=$(echo $DATA | jq -r '.models | .[]')
-          for row in $models; do
-            echo "-> $row" 
+          for i in $models; do
+            gradle gm --name $i
           done
       - name: Generate ...
         run: |
           gradle gep --type webflux
-          gradle gm --name User
           gradle guc --name CreateUser
           gradle gda --type generic --name DrivenAdapter
       - name: Archive Release
