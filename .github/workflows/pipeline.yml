@@ -6,6 +6,9 @@ on:
 jobs:
   scaffold:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
     steps:
       - uses: actions/setup-java@v3
         with:
@@ -15,5 +18,10 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Run command
         run: |
+          pwd
+          ls
           java --version
           gradle --version
+          echo "plugins {
+              id \"co.com.bancolombia.cleanArchitecture\" version \"2.4.4\"
+          }" > build.gradle
