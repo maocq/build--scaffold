@@ -74,4 +74,4 @@ jobs:
         with:
           url: ${{ secrets.WEBHOOK_URL }}
           headers: '{"repository" : " ${{ github.repository }}"}'
-          body: '{"status": "${{ job.status }}", "url": "https://build-scaffold.s3.amazonaws.com/data/$RID/app.zip"}'
+          body: '{"status": "${{ job.status }}", "url": "https://build-scaffold.s3.amazonaws.com/data/${{ env.RID }}/app.zip"}'
