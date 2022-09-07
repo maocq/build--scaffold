@@ -19,6 +19,10 @@ jobs:
       - name: Print input
         if:  ${{ inputs.print }} 
         run:  echo "Inputs - ${{ inputs.data }}" 
+      - name: Print input 2
+        run: |
+         echo "Inputs - "${{ toJSON(github) }}"
+         echo "Inputs - "${{ toJSON(inputs) }}"
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
