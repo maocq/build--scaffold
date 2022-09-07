@@ -63,7 +63,7 @@ jobs:
           filename: 'app.zip'
       - name: Upload to S3
         run: |
-          export RID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+          export RID=$(uuidgen)
           echo $RID
           aws s3 cp app.zip s3://build-scaffold
         env:
