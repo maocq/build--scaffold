@@ -19,7 +19,7 @@ jobs:
       - name: Print input
         #if:  ${{ inputs.print }} 
         #run:  echo "Inputs - ${{ inputs.data }}" 
-        run: echo "${{ toJSON(github.event.inputs) }}"
+        run: echo "${{ toJSON(github) }}"
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
