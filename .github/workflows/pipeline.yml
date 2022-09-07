@@ -6,14 +6,22 @@ on:
         description: 'Data'
         required: false
         type: string
+      print:
+        description: 'True to print data'
+        required: false
+        type: boolean
 env:
   DATA: ${{ inputs.data }}
 jobs:
-  scaffold:
+  print:
     runs-on: ubuntu-latest
+    if:  ${{ inputs.print }} 
     steps:
       - name: Print input
         run:  echo "Inputs - ${{ inputs.data }}" 
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
