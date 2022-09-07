@@ -6,6 +6,54 @@ on:
         description: 'Data'
         required: false
         type: string
+      language:
+        description: 'Data'
+        required: false
+        type: string
+      version:
+        description: 'Data'
+        required: false
+        type: string
+      packageName:
+        description: 'Data'
+        required: false
+        type: string
+      type:
+        description: 'Data'
+        required: false
+        type: string
+      nameProject:
+        description: 'Data'
+        required: false
+        type: string
+      coverage:
+        description: 'Data'
+        required: false
+        type: string
+      lombok:
+        description: 'Data'
+        required: false
+        type: string
+      metrics:
+        description: 'Data'
+        required: false
+        type: string
+      models:
+        description: 'Data'
+        required: false
+        type: string
+      useCases:
+        description: 'Data'
+        required: false
+        type: string
+      drivers:
+        description: 'Data'
+        required: false
+        type: string
+      entryPoint:
+        description: 'Data'
+        required: false
+        type: string        
 env:
   DATA: ${{ inputs.data }}
 jobs:
