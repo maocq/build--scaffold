@@ -39,10 +39,7 @@ jobs:
           coverage=$(echo $DATA | jq -r '.coverage')
           lombok=$(echo $DATA | jq -r '.lombok')
           metrics=$(echo $DATA | jq -r '.metrics')
-          echo $package
-          echo $name
-          echo $lombok
-          gradle ca --package=co.com.bancolombia --type=reactive --name=HelloProject --coverage=jacoco --lombok=true
+          gradle ca --package=$package --type=$type --name=$name --coverage=$coverage --lombok=$lombok
       - name: Generate models
         run: |
           models=$(echo $DATA | jq -r '.models | .[]')
