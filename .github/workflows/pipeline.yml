@@ -64,8 +64,7 @@ jobs:
       - name: Upload to S3
         run: |
           export RID=$(uuidgen)
-          echo $RID
-          aws s3 cp app.zip s3://build-scaffold
+          aws s3 cp app.zip s3://build-scaffold/data/$RID/app.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -75,4 +74,4 @@ jobs:
         with:
           url: ${{ secrets.WEBHOOK_URL }}
           headers: '{"repository" : " ${{ github.repository }}"}'
-          body: '{"status": "${{ job.status }}", "ref": "${{ github.ref }}"}'
+          body: '{"status": "${{ job.status }}", "url": "https://build-scaffold.s3.amazonaws.com/data/$RID/app.zip"}'
