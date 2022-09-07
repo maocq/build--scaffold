@@ -21,8 +21,8 @@ jobs:
         run:  echo "Inputs - ${{ inputs.data }}" 
       - name: Print input 2
         run: |
-         echo "Inputs - "${{ toJSON(github) }}"
-         echo "Inputs - "${{ toJSON(inputs) }}"
+          run: echo "${{ toJSON(github.event.inputs) }}"
+          run: echo "${{ toJSON(github) }}"
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
