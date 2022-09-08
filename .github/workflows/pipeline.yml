@@ -56,13 +56,13 @@ jobs:
         run: |
           entryPoints=$(echo $DATA | jq -r '.entryPoint | .[]')
           for i in $entryPoints; do
-            eval "gradle gep --type $i"
+            gradle gep --type $i
           done
       - name: Generate driven adapters
         run: |
           drivenAdapter=$(echo $DATA | jq -r '.drivenAdapter | .[]')
           for i in $drivenAdapter; do
-            eval "gradle gda --type $i"
+            gradle gda --type $i
           done
       - name: Archive Release
         uses: thedoctor0/zip-release@main
