@@ -64,6 +64,12 @@ jobs:
           for i in $drivenAdapter; do
             gradle gda --type $i
           done
+      - name: Generate pipelines
+        run: |
+          pipelines=$(echo $DATA | jq -r '.pipelines | .[]')
+          for i in $pipelines; do
+            gradle gpl --type $i
+          done
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
