@@ -52,10 +52,18 @@ jobs:
           for i in $useCases; do
             gradle guc --name $i
           done
-      - name: Generate ...
+      - name: Generate entry points
         run: |
-          gradle gep --type webflux
-          gradle gda --type generic --name DrivenAdapter
+          entryPoints=$(echo $DATA | jq -r '.entryPoint | .[]')
+          for i in $entryPoints; do
+            gradle gep --type $i
+          done
+      - name: Generate driven adapters
+        run: |
+          drivenAdapter=$(echo $DATA | jq -r '.drivenAdapter | .[]')
+          for i in $drivenAdapter; do
+            gradle gda --type $i
+          done
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
