@@ -54,9 +54,19 @@ jobs:
           done
       - name: Generate entry points
         run: |
-          entryPoints=$(echo $DATA | jq -r '.entryPoint | .[]')
-          for i in $entryPoints; do
-            gradle gep --type $i
+          entryPoints=$(echo $DATA | jq -c '.entryPoint | .[]')
+          for ep in $entryPoints; do
+            name=$(echo "$ep" | jq -r '.name')
+            params=$(echo $ep | jq -c '.params | .[]')
+
+            options=""
+            for param in $params; do
+              key=$(echo $param | jq -r '.key')
+              value=$(echo $param | jq -r '.value')
+              options="$options --$key $value"
+            done
+
+            gradle gep --type $name$options
           done
       - name: Generate driven adapters
         run: |
