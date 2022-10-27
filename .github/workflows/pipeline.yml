@@ -60,9 +60,19 @@ jobs:
           done
       - name: Generate driven adapters
         run: |
-          drivenAdapter=$(echo $DATA | jq -r '.drivenAdapter | .[]')
-          for i in $drivenAdapter; do
-            gradle gda --type $i
+          drivenAdapters=$(echo $DATA | jq -c '.drivenAdapter | .[]')
+          for da in $drivenAdapters; do
+            name=$(echo "$da" | jq -r '.name')
+            params=$(echo $da | jq -c '.params | .[]')
+
+            options=""
+            for param in $params; do
+              key=$(echo $param | jq -r '.key')
+              value=$(echo $param | jq -r '.value')
+              options="$options --$key $value"
+            done
+
+            gradle gda --type $name$options
           done
       - name: Generate pipelines
         run: |
