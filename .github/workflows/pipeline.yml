@@ -11,6 +11,7 @@ on:
         required: false
         type: boolean
 env:
+  # data='{"language":"JAVA","version":"VERSION_11","packageName":"co.com.bancolombia","type":"reactive","nameProject":"NameProject","coverage":"jacoco","lombok":true,"metrics":true,"models":["User","Account"],"useCases":["CreateUser","NewAccount"],"entryPoint":[{"name":"webflux","params":[{"key":"router","value":"false"}]}],"drivenAdapter":[{"name":"generic","params":[{"key":"name","value":"MyName"}]},{"name":"redis","params":[{"key":"mode","value":"template"}, {"key":"secret","value":"true"}]}],"pipelines":["github"]}'
   DATA: ${{ inputs.data }}
 jobs:
   scaffold:
