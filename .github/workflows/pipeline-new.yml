@@ -90,7 +90,7 @@ jobs:
           done      
       - name: Generate pipelines
         run: |
-          pipelines=$(echo $DATA | jq -r '.pipelines | .[]')
+          pipelines=$(echo $DATA | jq -r 'if has("pipelines") then .pipelines else [] end | .[]')
           for i in $pipelines; do
             gradle gpl --type $i
           done
