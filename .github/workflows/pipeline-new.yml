@@ -70,7 +70,7 @@ jobs:
               params="$params --$key $value"
             done
             
-            gradle gep --type $name$options
+            gradle gep --type $name$params
           done
       - name: Generate driven adapters
         run: |
@@ -86,7 +86,7 @@ jobs:
               params="$params --$key $value"
             done
             
-            gradle gda --type $name$options
+            gradle gda --type $name$params
           done      
       - name: Generate pipelines
         run: |
