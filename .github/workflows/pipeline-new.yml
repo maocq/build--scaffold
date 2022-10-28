@@ -107,5 +107,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
       - name: Print result
-        if:  ${{ inputs.print }} 
         run:  echo "https://build-scaffold.s3.amazonaws.com/data/${{ github.run_id }}/app.zip" 
