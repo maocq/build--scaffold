@@ -1,0 +1,111 @@
+name: Build scaffold - new
+on:
+  workflow_dispatch:
+    inputs:
+      data:
+        description: 'Data'
+        required: false
+        type: string
+      print:
+        description: 'True to print data'
+        required: false
+        type: boolean
+env:
+  # data='{"repositoryType":"TDB","entryPoints":[{"EntryPoint":"generic","name":"genericEP"},{"EntryPoint":"restmvc","server":"undertow"}],"drivens":[{"Driven":"jpa","secret":true,"url":"my-url"},{"Driven":"kms"},{"Driven":"mongodb","secret":false}],"useCases":["ConsultarSolicitud","GuardarSolicitud","ConsultarPersona","GuardarPersona"],"models":["Solicitud","Persona"],"package":"co.com.bancolombia","projectType":"reactive","coverage":"jacoco","language":"Java","lombok":false,"metrics":true,"name":"project-sofi","version":17,"repoUrl":"dev.azure.com?owner=DISJTRA&repo=project-sofi-repo&organization=bancolombia"}'
+  DATA: ${{ inputs.data }}
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print input
+        if:  ${{ inputs.print }} 
+        run:  echo "Inputs - ${{ inputs.data }}" 
+        #run: echo "${{ toJSON(github.event.inputs) }}"
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Build gradle
+        run: |
+          echo "plugins {
+              id \"co.com.bancolombia.cleanArchitecture\" version \"2.4.5\"
+          }" > build.gradle
+      - name: Generate Project
+        run: |       
+          package=$(echo $DATA | jq -r '.package')
+          type=$(echo $DATA | jq -r '.projectType')
+          name=$(echo $DATA | jq -r '.name')
+          coverage=$(echo $DATA | jq -r '.coverage')
+          lombok=$(echo $DATA | jq -r '.lombok')
+          metrics=$(echo $DATA | jq -r '.metrics')
+          language=$(echo $DATA | jq -r '.language')
+          javaVersion="VERSION_$(echo $DATA | jq -r '.version')"
+
+          gradle ca --package=$package --type=$type --name=$name --coverage=$coverage --lombok=$lombok --metrics=$metrics --language=$language --javaVersion=$javaVersion     
+      - name: Generate models
+        run: |
+          models=$(echo $DATA | jq -r '.models | .[]')
+          for i in $models; do
+            gradle gm --name $i
+          done
+      - name: Generate use cases
+        run: |
+          useCases=$(echo $DATA | jq -r '.useCases | .[]')
+          for i in $useCases; do
+            gradle guc --name $i
+          done
+      - name: Generate entry points
+        run: |          
+          entryPoints=$(echo $DATA | jq -c '.entryPoints | .[]')
+          for ep in $entryPoints; do  
+            name=$(echo "$ep" | jq -r '.EntryPoint')
+            options=$(echo $ep | jq -c 'del(.EntryPoint) | to_entries | .[]')
+
+            params=""
+            for option in $options; do
+              key=$(echo $option | jq -r '.key')
+              value=$(echo $option | jq -r '.value')
+              params="$params --$key $value"
+            done
+            
+            gradle gep --type $name$options
+          done
+      - name: Generate driven adapters
+        run: |
+          drivenAdapters=$(echo $DATA | jq -c '.drivens | .[]')
+          for da in $drivenAdapters; do  
+            name=$(echo "$da" | jq -r '.Driven')
+            options=$(echo $da | jq -c 'del(.Driven) | to_entries | .[]')
+
+            params=""
+            for option in $options; do
+              key=$(echo $option | jq -r '.key')
+              value=$(echo $option | jq -r '.value')
+              params="$params --$key $value"
+            done
+            
+            gradle gda --type $name$options
+          done      
+      - name: Generate pipelines
+        run: |
+          pipelines=$(echo $DATA | jq -r '.pipelines | .[]')
+          for i in $pipelines; do
+            gradle gpl --type $i
+          done
+      - name: Archive Release
+        uses: thedoctor0/zip-release@main
+        with:
+          type: 'zip'
+          filename: 'app.zip'
+      - name: Upload to S3
+        run: |
+          aws s3 cp app.zip s3://build-scaffold/data/${{ github.run_id }}/app.zip
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-east-1'
+      - name: Print result
+        if:  ${{ inputs.print }} 
+        run:  echo "https://build-scaffold.s3.amazonaws.com/data/${{ github.run_id }}/app.zip" 
