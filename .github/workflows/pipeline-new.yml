@@ -11,7 +11,7 @@ on:
         required: false
         type: boolean
 env:
-  # data='{"repositoryType":"TDB","entryPoints":[{"EntryPoint":"generic","name":"genericEP"},{"EntryPoint":"restmvc","server":"undertow"}],"drivens":[{"Driven":"jpa","secret":true,"url":"my-url"},{"Driven":"kms"},{"Driven":"mongodb","secret":false}],"useCases":["ConsultarSolicitud","GuardarSolicitud","ConsultarPersona","GuardarPersona"],"models":["Solicitud","Persona"],"package":"co.com.bancolombia","projectType":"reactive","coverage":"jacoco","language":"Java","lombok":false,"metrics":true,"name":"project-sofi","version":17,"repoUrl":"dev.azure.com?owner=DISJTRA&repo=project-sofi-repo&organization=bancolombia"}'
+  # data='{"repositoryType":"TDB","entryPoints":[{"EntryPoint":"generic","name":"genericEP"},{"EntryPoint":"restmvc","server":"undertow"}],"drivens":[{"Driven":"jpa","secret":true},{"Driven":"kms"},{"Driven":"mongodb","secret":false}],"useCases":["ConsultarSolicitud","GuardarSolicitud","ConsultarPersona","GuardarPersona"],"models":["Solicitud","Persona"],"package":"co.com.bancolombia","projectType":"reactive","coverage":"jacoco","language":"Java","lombok":false,"metrics":true,"name":"project-sofi","version":17,"repoUrl":"dev.azure.com?owner=DISJTRA&repo=project-sofi-repo&organization=bancolombia"}'
   DATA: ${{ inputs.data }}
 jobs:
   scaffold:
